@@ -1,21 +1,61 @@
-import TxtInput from '@/features/plant/TxtInput';
 import { ChangeEvent, useState } from 'react';
 
+import TxtInput from '@/features/plant/TxtInput';
+import { useAuthStore } from '@/stores/authStore';
+import { savePlantData, savePlantImage } from '@/lib/plant';
+
 const CreatePlant = () => {
+    const user = useAuthStore(state => state.user);
+
+    const [imgFile, setImgFile] = useState<File | null>(null);
     const [previewImg, setPreviewImg] = useState('');
+    const [name, setName] = useState('');
+    const [nameEn, setNameEn] = useState('');
+
+    const init = () => {
+        setImgFile(null);
+        setPreviewImg('');
+        setName('');
+        setNameEn('');
+    };
 
     const handleUploadedImage = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e || !e.target.files) {
             return;
         }
+
         const file = e.target.files[0];
+        if (!file) {
+            return;
+        }
         setPreviewImg(URL.createObjectURL(file));
-        console.log(file);
+        setImgFile(file);
+    };
+
+    const addPlant = async () => {
+        if (!name || !user) {
+            return;
+        }
+
+        let imgUrl = '';
+
+        try {
+            if (imgFile) {
+                imgUrl = await savePlantImage(user, imgFile);
+            }
+
+            await savePlantData({ user, name, nameEn, imgUrl });
+            init();
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
         <div className="flex flex-col p-5">
-            <button className="self-end mb-6">추가하기</button>
+            <button onClick={addPlant} className="self-end mb-6">
+                추가하기
+            </button>
             <div className="flex flex-col items-center gap-y-4">
                 <div className="relative w-80 h-80 bg-stone-200">
                     {previewImg ? (
