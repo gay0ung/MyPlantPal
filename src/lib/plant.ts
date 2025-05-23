@@ -40,3 +40,32 @@ export const savePlantData = async ({ user, name, nameEn, imgUrl }: InsertPlantD
         console.log('데이터 저장 실패', error);
     }
 };
+
+export const loadPlants = async (user: User | null): Promise<Plant[]> => {
+    if (!user) {
+        return [];
+    }
+    const userId = user.id;
+
+    const { data: plants, error } = await supabase.from('plants').select('*').eq('user_id', userId);
+
+    if (error) {
+        console.error('식물목록 로드 실패');
+        return [];
+    }
+    return getConvertedPlants(plants) || [];
+};
+
+const getConvertedPlants = (plants: any[]): Plant[] => {
+    if (plants.length <= 0) {
+        return [];
+    }
+    return plants.map(plant => {
+        return {
+            ...plant,
+            imgUrl: plant.img_url,
+            nameEn: plant.name_en,
+            userId: plant.user_id
+        };
+    });
+};
