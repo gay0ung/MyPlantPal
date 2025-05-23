@@ -79,8 +79,16 @@ const CreatePlant = () => {
                         className="hidden"
                     />
                 </div>
-                <TxtInput placeholder="식물명을 한글로 입력해 주세요." />
-                <TxtInput placeholder="식물명을 영문으로 입력해 주세요" />
+                <TxtInput
+                    placeholder="식물명을 한글로 입력해 주세요."
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                />
+                <TxtInput
+                    placeholder="식물명을 영문으로 입력해 주세요"
+                    value={nameEn}
+                    onChange={e => setNameEn(e.target.value)}
+                />
             </div>
         </div>
     );
