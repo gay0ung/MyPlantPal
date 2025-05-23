@@ -1,6 +1,7 @@
 import { supabase } from '@/supabaseClient';
+import { Plant } from '@/types/plant';
 import { User } from '@supabase/supabase-js';
-
+import { v4 as uuid } from 'uuid';
 interface InsertPlantDataParam {
     user: User;
     name: string;
@@ -12,9 +13,7 @@ export const savePlantImage = async (user: User, file: File): Promise<string> =>
     if (!user || !file) {
         return '';
     }
-
-    const encodedFileName = encodeURIComponent(file.name);
-    const fileName = `${Date.now()}_${encodedFileName}`;
+    const fileName = `${Date.now()}_${uuid()}`;
 
     console.log(fileName);
 
@@ -28,13 +27,15 @@ export const savePlantImage = async (user: User, file: File): Promise<string> =>
     return urlData.publicUrl;
 };
 
-export const savePlantData = async ({ user, name, nameEn, imgUrl }: InsertPlantDataParam) => {
+export const savePlantData = async ({ user, name, nameEn, imgUrl }: InsertPlantDataParam): Promise<void> => {
     if (!user) {
         console.log('유저 정보가 없음');
 
         return;
     }
-    const { error } = await supabase.from('plants').insert([{ name, name_en: nameEn, img_url: imgUrl }]);
+    const { error } = await supabase
+        .from('plants')
+        .insert([{ name, name_en: nameEn, img_url: imgUrl, user_id: user.id }]);
     if (error) {
         console.log('데이터 저장 실패', error);
     }
