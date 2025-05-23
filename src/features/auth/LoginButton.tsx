@@ -1,5 +1,5 @@
 import { SocialProvider } from '@/types/auth';
-import { handleSocialLogin } from './auth';
+import { handleSocialLogin } from '../../lib/auth';
 
 interface LoginButtonProps {
     provider: SocialProvider;

@@ -7,6 +7,7 @@ import AuthCallback from './pages/AuthCallback';
 import RouteGuard from './routes/RouteGuard';
 import RootRedirect from './routes/RootRedirect';
 import useAuthInit from './hooks/useAuthInit';
+import CreatePlant from './pages/CreatePlant';
 
 const App = () => {
     useAuthInit();
@@ -22,6 +23,14 @@ const App = () => {
                 element={
                     <RouteGuard>
                         <Home />
+                    </RouteGuard>
+                }
+            />
+            <Route
+                path="/create-plant"
+                element={
+                    <RouteGuard>
+                        <CreatePlant />
                     </RouteGuard>
                 }
             />
