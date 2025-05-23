@@ -10,8 +10,8 @@ const Home = () => {
 
     const [plants, setPlants] = useState<Plant[]>([]);
 
-    const moveToCreatePlant = () => {
-        navigate('/create-plant');
+    const moveToSearchPlant = () => {
+        navigate('/search');
     };
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const Home = () => {
         <div>
             <header>
                 <h3>내 식물</h3>
-                <button onClick={() => moveToCreatePlant()}>식물 추가</button>
+                <button onClick={moveToSearchPlant}>식물 추가</button>
             </header>
             <div>
                 {plants.length <= 0 ? (
