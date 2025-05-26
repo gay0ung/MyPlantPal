@@ -13,9 +13,11 @@ const SearchPlant = () => {
     const [filteredPlants, setFilteredPlants] = useState<GardenPlant[]>([]);
 
     useEffect(() => {
-        loadGardenPlants().then(res => {
-            setGardenPlants(res);
-        });
+        if (!gardenPlants) {
+            loadGardenPlants().then(res => {
+                setGardenPlants(res);
+            });
+        }
     }, []);
 
     const gardenPlantFilter = useMemo(() => {
