@@ -20,6 +20,8 @@
     "@types/react-dom": "^19.1.2",
     "autoprefixer": "^10.4.21",
     "axios": "^1.9.0",
+    "fast-xml-parser": "^5.2.3",
+    "lodash": "^4.17.21",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.1",
@@ -49,6 +51,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "@types/lodash": "^4.17.17",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.57.1",
@@ -59,5 +62,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "prettier": "^3.5.3",
     "tailwindcss": "^3.4.17"
-  }
+  },
+  "proxy": "https://cors-anywhere.herokuapp.com/"
 }
