@@ -8,6 +8,7 @@ import RouteGuard from './routes/RouteGuard';
 import RootRedirect from './routes/RootRedirect';
 import useAuthInit from './hooks/useAuthInit';
 import CreatePlant from './pages/CreatePlant';
+import SearchPlant from './pages/SearchPlant';
 
 const App = () => {
     useAuthInit();
@@ -26,6 +27,7 @@ const App = () => {
                     </RouteGuard>
                 }
             />
+            <Route path="/search" element={<SearchPlant />} />
             <Route
                 path="/create-plant"
                 element={
