@@ -8,7 +8,7 @@ export const loadGardenPlants = async (): Promise<GardenPlant[]> => {
         {
             responseType: 'text',
             params: {
-                apiKey: process.env.REACT_APP_HOUSE_PLANT_KEY,
+                apiKey: process.env.REACT_APP_NONGSARO_SERVICE_KEY,
                 numOfRows: 500,
                 pageNo: 1
             }
