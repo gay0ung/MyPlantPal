@@ -1,12 +1,14 @@
-export interface GardenPlantResponse {
+export interface NongsaroPlantResponse {
     response: {
         body: {
             items: {
-                item: GardenPlant[];
+                item: NongsaroPlant[];
             };
         };
     };
 }
+
+export type NongsaroPlant = GardenPlant | DryPlant;
 
 export interface GardenPlant {
     cntntsNo: number; // 콘텐츠 고유번호
@@ -21,4 +23,15 @@ export interface GardenPlant {
     rtnStreFileNm: string; // 저장된 파일명
     rtnThumbFileNm: string; // 썸네일 파일명
     rtnThumbFileUrl: string; // 썸네일 이미지 URL
+}
+
+export interface DryPlant {
+    cntntsNo: number;
+    cntntsSj: string;
+    clNm: string;
+    scnm: string;
+    thumbImgUrl1: string;
+    imgUrl1: string;
+    thumbImgUrl2: string;
+    imgUrl2: string;
 }
