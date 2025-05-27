@@ -1,27 +1,32 @@
-import { loadGardenPlants } from '@/lib/gardenPlant';
+import { loadGardenPlants, loadDryPlants } from '@/lib/nongsaroPlant';
 import { useGardenPlantStore } from '@/stores/gardenPlantStore';
-import { GardenPlant } from '@/types/gardenPlant';
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { DryPlant, GardenPlant } from '@/types/nongsaroPlant';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { debounce } from 'lodash';
+import { debounce, filter } from 'lodash';
 
 const SearchPlant = () => {
     const navigate = useNavigate();
     const setGardenPlants = useGardenPlantStore(state => state.setGardenPlants);
     const gardenPlants = useGardenPlantStore(state => state.gardenPlants);
     const [keyword, setKeyword] = useState('');
-    const [filteredPlants, setFilteredPlants] = useState<GardenPlant[]>([]);
+    const [filteredPlants, setFilteredPlants] = useState<(GardenPlant | DryPlant)[]>([]);
 
     useEffect(() => {
-        if (!gardenPlants) {
-            loadGardenPlants().then(res => {
-                setGardenPlants(res);
-            });
-        }
+        const fetchPlants = async () => {
+            if (!gardenPlants || gardenPlants.length === 0) {
+                const [gardenPlantsRes, dryPlantsRes] = await Promise.all([loadGardenPlants(), loadDryPlants()]);
+                const sortedPlant = [...gardenPlantsRes, ...dryPlantsRes].sort((a, b) =>
+                    a.cntntsSj.localeCompare(b.cntntsSj)
+                );
+                setGardenPlants(sortedPlant);
+            }
+        };
+        fetchPlants();
     }, []);
 
-    const gardenPlantFilter = useMemo(() => {
-        return debounce((text: string) => {
+    const gardenPlantFilter = useCallback(
+        debounce((text: string) => {
             if (!text.trim()) {
                 return;
             }
@@ -29,8 +34,15 @@ const SearchPlant = () => {
                 return gardenPlant.cntntsSj.includes(text);
             });
             setFilteredPlants(filteredPlants || []);
-        }, 300);
-    }, [gardenPlants]);
+        }, 300),
+        [gardenPlants]
+    );
+
+    useEffect(() => {
+        return () => {
+            gardenPlantFilter.cancel();
+        };
+    }, [gardenPlantFilter]);
 
     const handleSearchPlant = (e: ChangeEvent<HTMLInputElement>) => {
         setKeyword(e.target.value);
@@ -40,20 +52,14 @@ const SearchPlant = () => {
     const moveToCreatePlant = () => {
         navigate('/create-plant');
     };
+
     return (
         <div>
             <input type="text" onChange={e => handleSearchPlant(e)} value={keyword} />
             <button onClick={moveToCreatePlant}>식물 직접 추가하기</button>
-            {gardenPlants &&
-                !keyword &&
-                gardenPlants.map(item => {
-                    return <p key={item.cntntsNo}>{item.cntntsSj}</p>;
-                })}
-            {keyword &&
-                filteredPlants &&
-                filteredPlants.map(plant => {
-                    return <p key={plant.cntntsNo}>{plant.cntntsSj}</p>;
-                })}
+            {(keyword ? filteredPlants : gardenPlants)?.map(item => {
+                return <p key={item.cntntsNo}>{item.cntntsSj}</p>;
+            })}
         </div>
     );
 };
