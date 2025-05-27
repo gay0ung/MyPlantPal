@@ -9,6 +9,7 @@ import RootRedirect from './routes/RootRedirect';
 import useAuthInit from './hooks/useAuthInit';
 import CreatePlant from './pages/CreatePlant';
 import SearchPlant from './pages/SearchPlant';
+import DetailPlant from './pages/DetailPlant';
 
 const App = () => {
     useAuthInit();
@@ -28,6 +29,7 @@ const App = () => {
                 }
             />
             <Route path="/search" element={<SearchPlant />} />
+            <Route path="/detail-plant/:{plantId}" element={<DetailPlant />} />
             <Route
                 path="/create-plant"
                 element={
