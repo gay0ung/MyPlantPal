@@ -1,9 +1,9 @@
-import { GardenPlant } from '@/types/gardenPlant';
+import { DryPlant, GardenPlant, NongsaroPlant } from '@/types/nongsaroPlant';
 import { create } from 'zustand';
 
 interface Store {
-    gardenPlants: GardenPlant[] | null;
-    setGardenPlants: (gardenPlants: GardenPlant[] | null) => void;
+    gardenPlants: NongsaroPlant[] | null;
+    setGardenPlants: (gardenPlants: NongsaroPlant[] | null) => void;
 }
 
 export const useGardenPlantStore = create<Store>(set => ({
