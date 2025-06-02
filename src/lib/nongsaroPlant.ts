@@ -1,4 +1,11 @@
-import { DryPlant, GardenPlant, NongsaroPlant, NongsaroPlantResponse, NonsaroPlantType } from '@/types/nongsaroPlant';
+import {
+    DryPlant,
+    GardenPlant,
+    NongsaroPlant,
+    NongsaroPlantDetailResponse,
+    NongsaroPlantResponse,
+    NongsaroPlantType
+} from '@/types/nongsaroPlant';
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
 
@@ -45,7 +52,7 @@ export const loadDryPlants = async (): Promise<DryPlant[]> => {
     return plants;
 };
 
-const getConvertedPlants = (plants: NongsaroPlant[], type: NonsaroPlantType) => {
+const getConvertedPlants = (plants: NongsaroPlant[], type: NongsaroPlantType) => {
     if (!plants || plants.length <= 0) {
         return [];
     }
@@ -55,4 +62,31 @@ const getConvertedPlants = (plants: NongsaroPlant[], type: NonsaroPlantType) => 
             type
         };
     });
+};
+
+export const loadNongsaroPlantDetail = async (plantNo: number, type: NongsaroPlantType) => {
+    if (!plantNo || !type) {
+        return null;
+    }
+
+    const detailUrl =
+        type === 'garden'
+            ? `${DEV_BASE_URL}/${BASE_URL}/garden/gardenDtl`
+            : `${DEV_BASE_URL}/${BASE_URL}/dryGarden/dryGardenDtl`;
+
+    const xmlRes = await axios.get(detailUrl, {
+        responseType: 'text',
+        params: {
+            apiKey: process.env.REACT_APP_NONGSARO_SERVICE_KEY,
+            cntntsNo: plantNo
+        }
+    });
+
+    const parser = new XMLParser({
+        ignoreAttributes: false,
+        ignoreDeclaration: true
+    });
+    const json = parser.parse(xmlRes.data) as NongsaroPlantDetailResponse;
+
+    return json.response.body.item;
 };
