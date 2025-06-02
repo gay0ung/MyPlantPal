@@ -3,7 +3,7 @@ import { usePlantStore } from '@/stores/plantStore';
 import { DryPlant, GardenPlant } from '@/types/nongsaroPlant';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { debounce, filter } from 'lodash';
+import { debounce } from 'lodash';
 
 const SearchPlant = () => {
     const navigate = useNavigate();
