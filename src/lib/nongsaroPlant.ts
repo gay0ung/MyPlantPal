@@ -1,47 +1,58 @@
-import { DryPlant, GardenPlant, NongsaroPlantResponse } from '@/types/nongsaroPlant';
+import { DryPlant, GardenPlant, NongsaroPlant, NongsaroPlantResponse, PlantType } from '@/types/nongsaroPlant';
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
 
+const DEV_BASE_URL = 'https://cors-anywhere.herokuapp.com';
+const BASE_URL = 'http://api.nongsaro.go.kr/service';
+
 export const loadGardenPlants = async (): Promise<GardenPlant[]> => {
-    const xmlRes = await axios.get(
-        `https://cors-anywhere.herokuapp.com/http://api.nongsaro.go.kr/service/garden/gardenList`,
-        {
-            responseType: 'text',
-            params: {
-                apiKey: process.env.REACT_APP_NONGSARO_SERVICE_KEY,
-                numOfRows: 500,
-                pageNo: 1
-            }
+    const xmlRes = await axios.get(`${DEV_BASE_URL}/${BASE_URL}/garden/gardenList`, {
+        responseType: 'text',
+        params: {
+            apiKey: process.env.REACT_APP_NONGSARO_SERVICE_KEY,
+            numOfRows: 500,
+            pageNo: 1
         }
-    );
+    });
 
     const parser = new XMLParser({
         ignoreAttributes: false,
         ignoreDeclaration: true
     });
     const json = parser.parse(xmlRes.data) as NongsaroPlantResponse;
+    const plants = getConvertedPlants(json.response.body.items.item, 'garden') as GardenPlant[];
 
-    return (json.response.body.items.item as GardenPlant[]) || [];
+    return plants;
 };
 
 export const loadDryPlants = async (): Promise<DryPlant[]> => {
-    const xmlRes = await axios.get(
-        `https://cors-anywhere.herokuapp.com/http://api.nongsaro.go.kr/service/dryGarden/dryGardenList`,
-        {
-            responseType: 'text',
-            params: {
-                apiKey: process.env.REACT_APP_NONGSARO_SERVICE_KEY,
-                numOfRows: 500,
-                pageNo: 1
-            }
+    const xmlRes = await axios.get(`${DEV_BASE_URL}/${BASE_URL}/dryGarden/dryGardenList`, {
+        responseType: 'text',
+        params: {
+            apiKey: process.env.REACT_APP_NONGSARO_SERVICE_KEY,
+            numOfRows: 500,
+            pageNo: 1
         }
-    );
+    });
 
     const parser = new XMLParser({
         ignoreAttributes: false,
         ignoreDeclaration: true
     });
     const json = parser.parse(xmlRes.data) as NongsaroPlantResponse;
+    const plants = getConvertedPlants(json.response.body.items.item, 'dry') as DryPlant[];
 
-    return (json.response.body.items.item as DryPlant[]) || [];
+    return plants;
+};
+
+const getConvertedPlants = (plants: NongsaroPlant[], type: PlantType) => {
+    if (!plants || plants.length <= 0) {
+        return [];
+    }
+    return plants.map(plant => {
+        return {
+            ...plant,
+            type
+        };
+    });
 };
