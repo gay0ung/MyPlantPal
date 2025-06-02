@@ -1,4 +1,4 @@
-import { DryPlant, GardenPlant, NongsaroPlant, NongsaroPlantResponse, PlantType } from '@/types/nongsaroPlant';
+import { DryPlant, GardenPlant, NongsaroPlant, NongsaroPlantResponse, NonsaroPlantType } from '@/types/nongsaroPlant';
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
 
@@ -45,7 +45,7 @@ export const loadDryPlants = async (): Promise<DryPlant[]> => {
     return plants;
 };
 
-const getConvertedPlants = (plants: NongsaroPlant[], type: PlantType) => {
+const getConvertedPlants = (plants: NongsaroPlant[], type: NonsaroPlantType) => {
     if (!plants || plants.length <= 0) {
         return [];
     }

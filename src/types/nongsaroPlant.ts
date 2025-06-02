@@ -9,7 +9,7 @@ export interface NongsaroPlantResponse {
 }
 
 export type NongsaroPlant = GardenPlant | DryPlant;
-export type PlantType = 'garden' | 'dry';
+export type NonsaroPlantType = 'garden' | 'dry';
 
 export interface GardenPlant {
     cntntsNo: number; // 콘텐츠 고유번호
@@ -24,7 +24,7 @@ export interface GardenPlant {
     rtnStreFileNm: string; // 저장된 파일명
     rtnThumbFileNm: string; // 썸네일 파일명
     rtnThumbFileUrl: string; // 썸네일 이미지 URL
-    type: PlantType;
+    type: NonsaroPlantType;
 }
 
 export interface DryPlant {
@@ -36,5 +36,5 @@ export interface DryPlant {
     imgUrl1: string;
     thumbImgUrl2: string;
     imgUrl2: string;
-    type: PlantType;
+    type: NonsaroPlantType;
 }
