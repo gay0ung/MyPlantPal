@@ -1,9 +1,9 @@
 import {
-    DryPlant,
-    GardenPlant,
-    NongsaroPlant,
-    NongsaroPlantDetailResponse,
+    DryPlantSummary,
+    GardenPlantSummary,
     NongsaroPlantResponse,
+    NongsaroPlantSummary,
+    NongsaroPlantSummaryResponse,
     NongsaroPlantType
 } from '@/types/nongsaroPlant';
 import axios from 'axios';
@@ -12,7 +12,7 @@ import { XMLParser } from 'fast-xml-parser';
 const DEV_BASE_URL = 'https://cors-anywhere.herokuapp.com';
 const BASE_URL = 'http://api.nongsaro.go.kr/service';
 
-export const loadGardenPlants = async (): Promise<GardenPlant[]> => {
+export const loadGardenPlants = async (): Promise<GardenPlantSummary[]> => {
     const xmlRes = await axios.get(`${DEV_BASE_URL}/${BASE_URL}/garden/gardenList`, {
         responseType: 'text',
         params: {
@@ -26,13 +26,13 @@ export const loadGardenPlants = async (): Promise<GardenPlant[]> => {
         ignoreAttributes: false,
         ignoreDeclaration: true
     });
-    const json = parser.parse(xmlRes.data) as NongsaroPlantResponse;
-    const plants = getConvertedPlants(json.response.body.items.item, 'garden') as GardenPlant[];
+    const json = parser.parse(xmlRes.data) as NongsaroPlantSummaryResponse;
+    const plants = getConvertedPlants(json.response.body.items.item, 'garden') as GardenPlantSummary[];
 
     return plants;
 };
 
-export const loadDryPlants = async (): Promise<DryPlant[]> => {
+export const loadDryPlants = async (): Promise<DryPlantSummary[]> => {
     const xmlRes = await axios.get(`${DEV_BASE_URL}/${BASE_URL}/dryGarden/dryGardenList`, {
         responseType: 'text',
         params: {
@@ -46,13 +46,13 @@ export const loadDryPlants = async (): Promise<DryPlant[]> => {
         ignoreAttributes: false,
         ignoreDeclaration: true
     });
-    const json = parser.parse(xmlRes.data) as NongsaroPlantResponse;
-    const plants = getConvertedPlants(json.response.body.items.item, 'dry') as DryPlant[];
+    const json = parser.parse(xmlRes.data) as NongsaroPlantSummaryResponse;
+    const plants = getConvertedPlants(json.response.body.items.item, 'dry') as DryPlantSummary[];
 
     return plants;
 };
 
-const getConvertedPlants = (plants: NongsaroPlant[], type: NongsaroPlantType) => {
+const getConvertedPlants = (plants: NongsaroPlantSummary[], type: NongsaroPlantType) => {
     if (!plants || plants.length <= 0) {
         return [];
     }
@@ -86,7 +86,7 @@ export const loadNongsaroPlantDetail = async (plantNo: number, type: NongsaroPla
         ignoreAttributes: false,
         ignoreDeclaration: true
     });
-    const json = parser.parse(xmlRes.data) as NongsaroPlantDetailResponse;
+    const json = parser.parse(xmlRes.data) as NongsaroPlantResponse;
 
     return json.response.body.item;
 };

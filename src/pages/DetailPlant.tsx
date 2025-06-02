@@ -1,26 +1,24 @@
 import { loadNongsaroPlantDetail } from '@/lib/nongsaroPlant';
 import { usePlantStore } from '@/stores/plantStore';
-import { DryPlant, DryPlantDetail, GardenPlant, GardenPlantDetail, NongsaroPlantDetail } from '@/types/nongsaroPlant';
+import { DryPlant, DryPlantSummary, GardenPlant, GardenPlantSummary, NongsaroPlant } from '@/types/nongsaroPlant';
 import { JSX, useEffect, useState } from 'react';
 
 const DetailPlant = () => {
-    const selectedNongsaroPlant = usePlantStore(state => state.selectedNongsaroPlant);
-    const [plantDetail, setPlantDetail] = useState<NongsaroPlantDetail | null>(null);
+    const selectedPlantSummary = usePlantStore(state => state.selectedNongsaroPlantSummary);
+    const [plant, setPlant] = useState<NongsaroPlant | null>(null);
 
     useEffect(() => {
-        if (selectedNongsaroPlant) {
-            const { cntntsNo, type } = selectedNongsaroPlant;
+        if (selectedPlantSummary) {
+            const { cntntsNo, type } = selectedPlantSummary;
             loadNongsaroPlantDetail(cntntsNo, type).then(res => {
-                console.log('res : ', res);
-                console.log('selectedNongsaroPlant : ', selectedNongsaroPlant);
-                setPlantDetail(res as NongsaroPlantDetail | null);
+                setPlant(res as NongsaroPlant | null);
             });
         }
-    }, [selectedNongsaroPlant]);
+    }, [selectedPlantSummary]);
 
     const GardenPlantUI = (): JSX.Element => {
-        const gardenPlant = selectedNongsaroPlant as GardenPlant;
-        const gardenPlantDetail = plantDetail as GardenPlantDetail;
+        const gardenPlant = selectedPlantSummary as GardenPlantSummary;
+        const gardenPlantDetail = plant as GardenPlant;
 
         const getPlantUrl = gardenPlant?.rtnFileUrl.split('|')[0] || '';
 
@@ -40,8 +38,8 @@ const DetailPlant = () => {
     };
 
     const DryPlantUI = (): JSX.Element => {
-        const dryPlant = selectedNongsaroPlant as DryPlant;
-        const dryPlantDetail = plantDetail as DryPlantDetail;
+        const dryPlant = selectedPlantSummary as DryPlantSummary;
+        const dryPlantDetail = plant as DryPlant;
 
         const getPlantEnName = () => {
             return dryPlantDetail?.scnm
@@ -68,7 +66,7 @@ const DetailPlant = () => {
     return (
         <div>
             <div className="flex flex-col items-center gap-y-4">
-                {selectedNongsaroPlant?.type === 'dry' ? DryPlantUI() : GardenPlantUI()}
+                {selectedPlantSummary?.type === 'dry' ? DryPlantUI() : GardenPlantUI()}
             </div>
         </div>
     );

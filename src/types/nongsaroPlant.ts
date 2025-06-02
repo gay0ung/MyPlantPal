@@ -1,25 +1,25 @@
-export interface NongsaroPlantResponse {
+export interface NongsaroPlantSummaryResponse {
     response: {
         body: {
             items: {
-                item: NongsaroPlant[];
+                item: NongsaroPlantSummary[];
             };
         };
     };
 }
-export interface NongsaroPlantDetailResponse {
+export interface NongsaroPlantResponse {
     response: {
         body: {
-            item: NongsaroPlantDetail;
+            item: NongsaroPlant;
         };
     };
 }
 
-export type NongsaroPlant = GardenPlant | DryPlant;
+export type NongsaroPlantSummary = GardenPlantSummary | DryPlantSummary;
 export type NongsaroPlantType = 'garden' | 'dry';
-export type NongsaroPlantDetail = GardenPlantDetail | DryPlantDetail;
+export type NongsaroPlant = GardenPlant | DryPlant;
 
-export interface GardenPlant {
+export interface GardenPlantSummary {
     cntntsNo: number; // 콘텐츠 고유번호
     cntntsSj: string; // 콘텐츠 제목 (식물 이름)
     rtnFileCours: string; // 파일 경로
@@ -35,7 +35,7 @@ export interface GardenPlant {
     type: NongsaroPlantType;
 }
 
-export interface DryPlant {
+export interface DryPlantSummary {
     clNm: string; // 과(분류)명
     cntntsNo: number; // 콘텐츠 번호
     cntntsSj: string; // 식물명
@@ -47,7 +47,7 @@ export interface DryPlant {
     type: NongsaroPlantType;
 }
 
-export interface GardenPlantDetail {
+export interface GardenPlant {
     adviseInfo: string; // 조언 정보
     batchPlaceInfo: string; // 배치장소 코드
     clCode: string; // 분류 코드(콤마(,)로 구분)
@@ -139,7 +139,7 @@ export interface GardenPlantDetail {
     winterLwetTpCodeNm: string; // 겨울 최저 온도 코드명
 }
 
-export interface DryPlantDetail {
+export interface DryPlant {
     batchPlaceInfo: string; // 배치장소
     chartrInfo: string; // 특성
     clCodeDc: string; // 과(분류) 설명

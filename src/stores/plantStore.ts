@@ -1,17 +1,17 @@
-import { NongsaroPlant } from '@/types/nongsaroPlant';
+import { NongsaroPlant, NongsaroPlantSummary } from '@/types/nongsaroPlant';
 import { create } from 'zustand';
 
 interface Store {
-    nongsaroPlants: NongsaroPlant[] | null;
-    selectedNongsaroPlant: NongsaroPlant | null;
-    setNongsaroPlants: (gardenPlants: NongsaroPlant[] | null) => void;
-    setSelectedNongsaroPlant: (plant: NongsaroPlant | null) => void;
+    nongsaroPlantSummaries: NongsaroPlantSummary[] | null;
+    selectedNongsaroPlantSummary: NongsaroPlantSummary | null;
+    setNongsaroPlantSummaries: (gardenPlants: NongsaroPlantSummary[] | null) => void;
+    setSelectedNongsaroPlantSummary: (plant: NongsaroPlantSummary | null) => void;
 }
 
 export const usePlantStore = create<Store>(set => ({
-    nongsaroPlants: null,
-    selectedNongsaroPlant: null,
+    nongsaroPlantSummaries: null,
+    selectedNongsaroPlantSummary: null,
 
-    setNongsaroPlants: nongsaroPlants => set({ nongsaroPlants }),
-    setSelectedNongsaroPlant: nongsaroPlant => set({ selectedNongsaroPlant: nongsaroPlant })
+    setNongsaroPlantSummaries: plantSummaries => set({ nongsaroPlantSummaries: plantSummaries }),
+    setSelectedNongsaroPlantSummary: plantSummary => set({ selectedNongsaroPlantSummary: plantSummary })
 }));
