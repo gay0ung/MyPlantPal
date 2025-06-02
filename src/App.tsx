@@ -17,8 +17,8 @@ const App = () => {
     return (
         <Routes>
             <Route path="/" element={<RootRedirect />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="login" element={<Login />} />
+            <Route path="auth/callback" element={<AuthCallback />} />
 
             <Route
                 path="/home"
@@ -28,10 +28,10 @@ const App = () => {
                     </RouteGuard>
                 }
             />
-            <Route path="/search" element={<SearchPlant />} />
-            <Route path="/detail-plant/:{plantId}" element={<DetailPlant />} />
+            <Route path="search" element={<SearchPlant />} />
+            <Route path="detail-plant/:plantId" element={<DetailPlant />} />
             <Route
-                path="/create-plant"
+                path="create-plant"
                 element={
                     <RouteGuard>
                         <CreatePlant />
