@@ -1,6 +1,6 @@
 import { loadGardenPlants, loadDryPlants } from '@/lib/nongsaroPlant';
 import { usePlantStore } from '@/stores/plantStore';
-import { DryPlant, GardenPlant, GardenPlantSummary, NongsaroPlant, NongsaroPlantSummary } from '@/types/nongsaroPlant';
+import { NongsaroPlantSummary } from '@/types/nongsaroPlant';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
