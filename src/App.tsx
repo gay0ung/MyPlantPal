@@ -10,6 +10,7 @@ import useAuthInit from './hooks/useAuthInit';
 import CreatePlant from './pages/CreatePlant';
 import SearchPlant from './pages/SearchPlant';
 import DetailPlant from './pages/DetailPlant';
+import DetailMyPlant from './pages/DetailMyPlant';
 
 const App = () => {
     useAuthInit();
@@ -30,6 +31,14 @@ const App = () => {
             />
             <Route path="search" element={<SearchPlant />} />
             <Route path="detail-plant/:plantId" element={<DetailPlant />} />
+            <Route
+                path="detail-my-plant/:plantId"
+                element={
+                    <RouteGuard>
+                        <DetailMyPlant />
+                    </RouteGuard>
+                }
+            />
             <Route
                 path="create-plant"
                 element={
