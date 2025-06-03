@@ -1,10 +1,14 @@
-import PlantImage from '@/features/plant/PlantImage';
+import { useEffect, useState } from 'react';
 import { loadNongsaroPlantDetail } from '@/lib/nongsaroPlant';
+import { useAuthStore } from '@/stores/authStore';
 import { usePlantStore } from '@/stores/plantStore';
 import { DryPlant, DryPlantSummary, GardenPlant, GardenPlantSummary, NongsaroPlant } from '@/types/nongsaroPlant';
-import { useEffect, useState } from 'react';
+
+import DetailDryPlant from '@/features/plant/DetailDryPlant';
+import DetailGardenPlant from '@/features/plant/DetailGardenPlant';
 
 const DetailPlant = () => {
+    const user = useAuthStore(state => state.user);
     const selectedPlantSummary = usePlantStore(state => state.selectedNongsaroPlantSummary);
     const [plant, setPlant] = useState<NongsaroPlant | null>(null);
 
@@ -22,35 +26,22 @@ const DetailPlant = () => {
     }
 
     if (selectedPlantSummary.type === 'garden') {
-        const gardenPlant = selectedPlantSummary as GardenPlantSummary;
-        const gardenPlantDetail = plant as GardenPlant;
-        const imageUrl = gardenPlant?.rtnFileUrl.split('|')[0] || '';
-
         return (
-            <div className="flex flex-col items-center gap-y-4">
-                <PlantImage src={imageUrl} alt={`${gardenPlant?.cntntsSj} 이미지`} />
-                <p>{gardenPlant?.cntntsSj}</p>
-                <p>{gardenPlantDetail?.plntbneNm}</p>
-            </div>
+            <DetailGardenPlant
+                user={user}
+                plant={plant as GardenPlant}
+                plantSummary={selectedPlantSummary as GardenPlantSummary}
+            />
         );
     }
 
     if (selectedPlantSummary.type === 'dry') {
-        const dryPlant = selectedPlantSummary as DryPlantSummary;
-        const dryPlantDetail = plant as DryPlant;
-        const imageUrl = dryPlant.imgUrl1 || dryPlant.imgUrl2 || '';
-        const plantEnName =
-            dryPlantDetail?.scnm
-                .replace(/<.*?>/g, '')
-                .replace(/\s*,\s*[가-힣]+.*/g, '')
-                .trim() || '';
-
         return (
-            <div className="flex flex-col items-center gap-y-4">
-                <PlantImage src={imageUrl} alt={`${dryPlant?.cntntsSj} 이미지`} />
-                <p>{dryPlant?.cntntsSj}</p>
-                <p>{plantEnName}</p>
-            </div>
+            <DetailDryPlant
+                user={user}
+                plantSummary={selectedPlantSummary as DryPlantSummary}
+                plant={plant as DryPlant}
+            />
         );
     }
 
