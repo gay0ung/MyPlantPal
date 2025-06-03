@@ -29,8 +29,6 @@ export const savePlantImage = async (user: User, file: File): Promise<string> =>
 
 export const savePlantData = async ({ user, name, nameEn, imgUrl }: InsertPlantDataParam): Promise<void> => {
     if (!user) {
-        console.log('유저 정보가 없음');
-
         return;
     }
     const { error } = await supabase
