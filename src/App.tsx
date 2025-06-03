@@ -32,7 +32,7 @@ const App = () => {
             <Route path="search" element={<SearchPlant />} />
             <Route path="detail-plant/:plantId" element={<DetailPlant />} />
             <Route
-                path="detail-my-plant/:plantId"
+                path="detail-my-plant/:plantName"
                 element={
                     <RouteGuard>
                         <DetailMyPlant />
