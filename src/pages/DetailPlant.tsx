@@ -19,7 +19,7 @@ const DetailPlant = () => {
                 setPlant(res as NongsaroPlant | null);
             });
         }
-    }, [selectedPlantSummary]);
+    }, [selectedPlantSummary?.cntntsNo]);
 
     if (!selectedPlantSummary) {
         return <p>선택한 식물이 없습니다.</p>;

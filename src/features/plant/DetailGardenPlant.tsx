@@ -30,12 +30,63 @@ const DetailGardenPlant = ({ user, plantSummary, plant }: DetailGardenPlantProps
         }
         savePlantData({ user, ...requestAddPlantData });
     }, [user, requestAddPlantData]);
+
+    const getConvertedDPlantSpec = useMemo(() => {
+        if (!plant?.speclmanageInfo) {
+            return '-';
+        }
+
+        return plant.speclmanageInfo.replace(/-/g, '');
+    }, [plant]);
+
     return (
         <div className="flex flex-col items-center gap-y-4">
             <AddMyPlantButton onClick={handleAddGardenPlant} />
             <PlantImage src={imageUrl} alt={`${plantSummary?.cntntsSj} 이미지`} />
-            <p>{plantSummary?.cntntsSj}</p>
-            <p>{plant?.plntbneNm}</p>
+            <div>
+                <p>{plantSummary?.cntntsSj}</p>
+                <p>{plant?.plntbneNm}</p>
+                <div>
+                    <b>특징</b>
+                    <p>{getConvertedDPlantSpec}</p>
+                </div>
+                <div>
+                    <b>원산지</b>
+                    <p>{plant?.orgplceInfo || '-'}</p>
+                </div>
+                <div>
+                    <h2>💡 관리 TIP</h2>
+                    <div>
+                        <b>물주기</b>
+                        <ul>
+                            <li>{`봄 : ${plant?.watercycleSprngCodeNm || '-'}`}</li>
+                            <li>{`여름 : ${plant?.watercycleSummerCodeNm || '-'}`}</li>
+                            <li>{`가을 : ${plant?.watercycleSprngCodeNm || '-'}`}</li>
+                            <li>{`겨울 : ${plant?.watercycleWinterCodeNm || '-'}`}</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <b>광도</b>
+                        <p>{plant?.lighttdemanddoCodeNm}</p>
+                    </div>
+                    <div>
+                        <b>생육온도</b>
+                        <p>{plant?.grwhTpCodeNm || '-'}</p>
+                    </div>
+                    <div>
+                        <b>최저온도</b>
+                        <p>{plant?.winterLwetTpCodeNm || '-'}</p>
+                    </div>
+                    <div>
+                        <b>배치장소</b>
+                        <p>{plant?.postngplaceCodeNm || '-'}</p>
+                    </div>
+                    <div>
+                        <b>병충해</b>
+                        <p>{plant?.dlthtsCodeNm}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
