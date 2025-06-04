@@ -36,12 +36,55 @@ const DetailDryPlant = ({ user, plantSummary, plant }: DetailDryPlantProps) => {
         savePlantData({ user, ...requestAddPlantData });
     }, [user, requestAddPlantData]);
 
+    const getReplacedInfo = (info: string) => {
+        if (!info) {
+            return '-';
+        }
+
+        return info.replace(/<br\s*\/?>/gi, '. ').replace(/-/g, '');
+    };
+
     return (
         <div className="flex flex-col items-center gap-y-4">
             <AddMyPlantButton onClick={handleAddDryPlant} />
             <PlantImage src={imageUrl} alt={`${plantSummary?.cntntsSj} 이미지`} />
             <p>{plantSummary?.cntntsSj}</p>
             <p>{plantEnName}</p>
+            <div>
+                <b>특징</b>
+                <p>{getReplacedInfo(plant?.chartrInfo)}</p>
+            </div>
+            <div>
+                <b>원산지</b>
+                <p>{plant?.orgplce || '-'}</p>
+            </div>
+            <div>
+                <h2>💡 관리 TIP</h2>
+                <div>
+                    <b>물주기</b>
+                    <p>{getReplacedInfo(plant?.waterCycleInfo)}</p>
+                </div>
+                <div>
+                    <b>광</b>
+                    <p>{getReplacedInfo(plant?.lighttInfo)}</p>
+                </div>
+                <div>
+                    <b>생장시기</b>
+                    <p>{plant?.grwtInfo || '-'}</p>
+                </div>
+                <div>
+                    <b>월동 온도</b>
+                    <p>{plant?.pswntrTpInfo || '-'}</p>
+                </div>
+                <div>
+                    <b>배치장소</b>
+                    <p>{getReplacedInfo(plant?.batchPlaceInfo)}</p>
+                </div>
+                <div>
+                    <b>병충해</b>
+                    <p>{plant?.dlthtsInfo || '-'}</p>
+                </div>
+            </div>
         </div>
     );
 };
