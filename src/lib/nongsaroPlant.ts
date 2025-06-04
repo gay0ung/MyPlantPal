@@ -9,7 +9,7 @@ import {
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
 
-const DEV_BASE_URL = 'https://cors-anywhere.herokuapp.com';
+const DEV_BASE_URL = process.env.REACT_APP_CORS_PROXY || '';
 const BASE_URL = 'http://api.nongsaro.go.kr/service';
 
 export const loadGardenPlants = async (): Promise<GardenPlantSummary[]> => {
