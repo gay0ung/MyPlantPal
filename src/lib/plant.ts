@@ -51,3 +51,11 @@ export const loadPlants = async (user: User | null): Promise<Plant[]> => {
     }
     return plants || [];
 };
+
+export const updateMyPlant = async (user: User | null, updatedData: Partial<Plant | null>) => {
+    if (!user || !updatedData || !updatedData.id) {
+        return;
+    }
+
+    await supabase.from('plants').update(updatedData).eq('id', updatedData.id).eq('userId', user.id);
+};
