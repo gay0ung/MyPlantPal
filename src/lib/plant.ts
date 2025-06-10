@@ -9,6 +9,8 @@ interface InsertPlantDataParam {
     imgUrl?: string;
 }
 
+const SUPABASE_BUCKET_PLANTS = 'plants';
+
 export const savePlantImage = async (user: User, file: File): Promise<string> => {
     if (!user || !file) {
         return '';
@@ -58,4 +60,31 @@ export const updateMyPlant = async (user: User | null, updatedData: Partial<Plan
     }
 
     await supabase.from('plants').update(updatedData).eq('id', updatedData.id).eq('userId', user.id);
+};
+
+export const deleteMyPlant = async (user: User | null, plant: Plant | null) => {
+    if (!user || !plant) {
+        return;
+    }
+
+    try {
+        const { error: delError } = await supabase.from('plants').delete().eq('id', plant.id).eq('userId', user.id);
+        if (delError) {
+            return;
+        }
+
+        await deleteMyPlantImgInStorage(plant.imgUrl || '');
+    } catch (error) {
+        console.error('삭제 처리 중 에러 : ', error);
+    }
+};
+
+const deleteMyPlantImgInStorage = async (imgUrl: string) => {
+    const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL || '';
+
+    if (!imgUrl || !imgUrl.includes(SUPABASE_URL)) {
+        return;
+    }
+    const filePath = imgUrl.split(`/${SUPABASE_BUCKET_PLANTS}/`)[1];
+    await supabase.storage.from(SUPABASE_BUCKET_PLANTS).remove([filePath]);
 };

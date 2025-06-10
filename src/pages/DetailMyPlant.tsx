@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { DateTime } from 'luxon';
 import { useAuthStore } from '@/stores/authStore';
-import { updateMyPlant } from '@/lib/plant';
+import { deleteMyPlant, updateMyPlant } from '@/lib/plant';
 import { useNavigate } from 'react-router-dom';
 
 const DetailMyPlant = () => {
@@ -40,8 +40,9 @@ const DetailMyPlant = () => {
         return dateTime.toFormat('yyyy년 MM월 dd일');
     };
 
-    const deleteMyPlant = () => {
+    const handleDeleteMyPlant = () => {
         if (confirm('식물을 삭제 하시겠습니까?')) {
+            deleteMyPlant(user, plant);
             navigate('/home');
         }
     };
@@ -67,7 +68,7 @@ const DetailMyPlant = () => {
                     </div>
                 )}
             </div>
-            <button type="button" onClick={deleteMyPlant}>
+            <button type="button" onClick={handleDeleteMyPlant}>
                 식물 삭제 하기
             </button>
         </div>
