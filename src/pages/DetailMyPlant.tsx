@@ -6,10 +6,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { DateTime } from 'luxon';
 import { useAuthStore } from '@/stores/authStore';
 import { updateMyPlant } from '@/lib/plant';
+import { useNavigate } from 'react-router-dom';
 
 const DetailMyPlant = () => {
     const user = useAuthStore(state => state.user);
     const plant = usePlantStore(state => state.selectedMyPlant);
+    const navigate = useNavigate();
 
     const [isShowDatePicker, setIsShowDatePicker] = useState<boolean>(false);
     const [selectedWateredAt, setSelectedWateredAt] = useState<Date | null>(null);
@@ -38,6 +40,12 @@ const DetailMyPlant = () => {
         return dateTime.toFormat('yyyy년 MM월 dd일');
     };
 
+    const deleteMyPlant = () => {
+        if (confirm('식물을 삭제 하시겠습니까?')) {
+            navigate('/home');
+        }
+    };
+
     return (
         <div className="flex flex-col items-center gap-y-4">
             <PlantImage src={plant?.imgUrl || ''} alt={`${plant?.name} 이미지`} />
@@ -59,6 +67,9 @@ const DetailMyPlant = () => {
                     </div>
                 )}
             </div>
+            <button type="button" onClick={deleteMyPlant}>
+                식물 삭제 하기
+            </button>
         </div>
     );
 };
