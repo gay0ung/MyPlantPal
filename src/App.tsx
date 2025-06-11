@@ -12,6 +12,7 @@ import SearchPlant from './pages/SearchPlant';
 import DetailPlant from './pages/DetailPlant';
 import DetailMyPlant from './pages/DetailMyPlant';
 import NavigationMenu from './NavigationMenu';
+import SnackBar from './SnackBar';
 
 const App = () => {
     useAuthInit();
@@ -53,6 +54,7 @@ const App = () => {
                 </Routes>
             </div>
             <NavigationMenu />
+            <SnackBar />
         </div>
     );
 };
