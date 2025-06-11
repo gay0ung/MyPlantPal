@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import TxtInput from '@/features/plant/TxtInput';
 import { useAuthStore } from '@/stores/authStore';
@@ -7,7 +7,7 @@ import { useSnackbarStore } from '@/stores/snackbarStore';
 
 const CreatePlant = () => {
     const user = useAuthStore(state => state.user);
-    const { open } = useSnackbarStore();
+    const { open, close } = useSnackbarStore();
 
     const [isAddingPlant, setIsAddingPlant] = useState(false);
     const [imgFile, setImgFile] = useState<File | null>(null);
@@ -59,6 +59,12 @@ const CreatePlant = () => {
 
         setIsAddingPlant(false);
     };
+
+    useEffect(() => {
+        return () => {
+            close();
+        };
+    }, []);
 
     return (
         <div className="flex flex-col p-5">
