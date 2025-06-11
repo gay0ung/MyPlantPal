@@ -18,7 +18,7 @@ const App = () => {
     useAuthInit();
 
     return (
-        <div className="overflow-hidden grid grid-rows-[1fr_50px] h-full">
+        <div className="overflow-hidden grid grid-rows-[1fr_var(--navbar-height)] h-full">
             <div className="h-full overflow-y-auto">
                 <Routes>
                     <Route path="/" element={<RootRedirect />} />
