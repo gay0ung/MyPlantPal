@@ -16,38 +16,42 @@ const App = () => {
     useAuthInit();
 
     return (
-        <Routes>
-            <Route path="/" element={<RootRedirect />} />
-            <Route path="login" element={<Login />} />
-            <Route path="auth/callback" element={<AuthCallback />} />
+        <div className="overflow-hidden grid grid-rows-[1fr_50px] h-full">
+            <div className="h-full overflow-y-auto">
+                <Routes>
+                    <Route path="/" element={<RootRedirect />} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="auth/callback" element={<AuthCallback />} />
 
-            <Route
-                path="/home"
-                element={
-                    <RouteGuard>
-                        <Home />
-                    </RouteGuard>
-                }
-            />
-            <Route path="search" element={<SearchPlant />} />
-            <Route path="detail-plant/:plantId" element={<DetailPlant />} />
-            <Route
-                path="detail-my-plant/:plantName"
-                element={
-                    <RouteGuard>
-                        <DetailMyPlant />
-                    </RouteGuard>
-                }
-            />
-            <Route
-                path="create-plant"
-                element={
-                    <RouteGuard>
-                        <CreatePlant />
-                    </RouteGuard>
-                }
-            />
-        </Routes>
+                    <Route
+                        path="/home"
+                        element={
+                            <RouteGuard>
+                                <Home />
+                            </RouteGuard>
+                        }
+                    />
+                    <Route path="search" element={<SearchPlant />} />
+                    <Route path="detail-plant/:plantId" element={<DetailPlant />} />
+                    <Route
+                        path="detail-my-plant/:plantName"
+                        element={
+                            <RouteGuard>
+                                <DetailMyPlant />
+                            </RouteGuard>
+                        }
+                    />
+                    <Route
+                        path="create-plant"
+                        element={
+                            <RouteGuard>
+                                <CreatePlant />
+                            </RouteGuard>
+                        }
+                    />
+                </Routes>
+            </div>
+        </div>
     );
 };
 
