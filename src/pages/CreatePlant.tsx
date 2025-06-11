@@ -3,9 +3,11 @@ import { ChangeEvent, useState } from 'react';
 import TxtInput from '@/features/plant/TxtInput';
 import { useAuthStore } from '@/stores/authStore';
 import { savePlantData, savePlantImage } from '@/lib/plant';
+import { useSnackbarStore } from '@/stores/snackbarStore';
 
 const CreatePlant = () => {
     const user = useAuthStore(state => state.user);
+    const { open } = useSnackbarStore();
 
     const [imgFile, setImgFile] = useState<File | null>(null);
     const [previewImg, setPreviewImg] = useState('');
@@ -45,9 +47,11 @@ const CreatePlant = () => {
             }
 
             await savePlantData({ user, name, nameEn, imgUrl });
+            open('식물이 추가 되었습니다.', 'info');
             init();
         } catch (error) {
             console.log(error);
+            open('식물이 추가 되지 않았습니다. 다시 추가해 주세요.', 'error', 5000);
         }
     };
 
