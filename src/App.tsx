@@ -12,12 +12,13 @@ import SearchPlant from './pages/SearchPlant';
 import DetailPlant from './pages/DetailPlant';
 import DetailMyPlant from './pages/DetailMyPlant';
 import NavigationMenu from './NavigationMenu';
+import SnackBar from './SnackBar';
 
 const App = () => {
     useAuthInit();
 
     return (
-        <div className="overflow-hidden grid grid-rows-[1fr_50px] h-full">
+        <div className="overflow-hidden grid grid-rows-[1fr_var(--navbar-height)] h-full">
             <div className="h-full overflow-y-auto">
                 <Routes>
                     <Route path="/" element={<RootRedirect />} />
@@ -53,6 +54,7 @@ const App = () => {
                 </Routes>
             </div>
             <NavigationMenu />
+            <SnackBar />
         </div>
     );
 };

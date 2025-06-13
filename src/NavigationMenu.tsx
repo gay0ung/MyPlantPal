@@ -16,7 +16,7 @@ const NavigationMenu = () => {
     );
 
     return (
-        <div className="flex gap-2 justify-between">
+        <div className="relative z-50 flex gap-2 justify-between bg-white">
             <Menu onClick={() => navigate('/search')} ariaLabel="검색 화면으로 이동" labelName="검색" />
             <Menu onClick={() => navigate('/home')} ariaLabel="홈 화면으로 이동" labelName="홈" />
         </div>

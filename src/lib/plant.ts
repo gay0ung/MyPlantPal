@@ -21,7 +21,7 @@ export const savePlantImage = async (user: User, file: File): Promise<string> =>
     const { error } = await supabase.storage.from(SUPABASE_BUCKET_PLANTS).upload(fileName, file);
 
     if (error) {
-        console.log('이미지 업로드 실패', error);
+        throw new Error(`이미지 업로드 실패 : ${error}`);
     }
 
     const { data: urlData } = supabase.storage.from(SUPABASE_BUCKET_PLANTS).getPublicUrl(fileName);
@@ -34,7 +34,7 @@ export const savePlantData = async ({ user, name, nameEn, imgUrl }: InsertPlantD
     }
     const { error } = await supabase.from(SUPABASE_TABLE_PLANTS).insert([{ name, nameEn, imgUrl, userId: user.id }]);
     if (error) {
-        console.log('데이터 저장 실패', error);
+        throw new Error(`내식물 저장 실패 : ${error}`);
     }
 };
 
@@ -47,8 +47,7 @@ export const loadPlants = async (user: User | null): Promise<Plant[]> => {
     const { data: plants, error } = await supabase.from(SUPABASE_TABLE_PLANTS).select('*').eq('userId', userId);
 
     if (error) {
-        console.error('식물목록 로드 실패');
-        return [];
+        throw new Error(`식물 목록 불러오기 실패 : ${error}`);
     }
     return plants || [];
 };
@@ -66,19 +65,14 @@ export const deleteMyPlant = async (user: User | null, plant: Plant | null) => {
         return;
     }
 
-    try {
-        const { error: delError } = await supabase
-            .from(SUPABASE_TABLE_PLANTS)
-            .delete()
-            .eq('id', plant.id)
-            .eq('userId', user.id);
-        if (delError) {
-            return;
-        }
+    const { error } = await supabase.from(SUPABASE_TABLE_PLANTS).delete().eq('id', plant.id).eq('userId', user.id);
+    if (error) {
+        throw new Error(`내 식물 삭제 실패 : ${error}`);
+    }
 
-        await deleteMyPlantImgInStorage(plant.imgUrl || '');
-    } catch (error) {
-        console.error('삭제 처리 중 에러 : ', error);
+    const res = await deleteMyPlantImgInStorage(plant.imgUrl || '');
+    if (res?.error) {
+        throw new Error(`내 식물 삭제 실패 : ${res.error}`);
     }
 };
 
@@ -89,5 +83,5 @@ const deleteMyPlantImgInStorage = async (imgUrl: string) => {
         return;
     }
     const filePath = imgUrl.split(`/${SUPABASE_BUCKET_PLANTS}/`)[1];
-    await supabase.storage.from(SUPABASE_BUCKET_PLANTS).remove([filePath]);
+    return await supabase.storage.from(SUPABASE_BUCKET_PLANTS).remove([filePath]);
 };
