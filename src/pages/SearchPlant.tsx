@@ -53,7 +53,7 @@ const SearchPlant = () => {
     };
 
     const moveToCreatePlant = () => {
-        navigate('/create-plant');
+        navigate('/create-my-plant');
     };
 
     const selectNongsaroPlantSummary = (plant: NongsaroPlantSummary) => {

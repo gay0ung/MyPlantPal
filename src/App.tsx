@@ -44,7 +44,7 @@ const App = () => {
                         }
                     />
                     <Route
-                        path="create-plant"
+                        path="create-my-plant"
                         element={
                             <RouteGuard>
                                 <CreateMyPlant />
