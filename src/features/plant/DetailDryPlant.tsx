@@ -29,11 +29,11 @@ const DetailDryPlant = ({ user, plantSummary, plant }: DetailDryPlantProps) => {
         [plantSummary, plant]
     );
 
-    const handleAddDryPlant = useCallback(() => {
+    const handleAddDryPlant = useCallback(async () => {
         if (!user) {
             return;
         }
-        savePlantData({ user, ...requestAddPlantData });
+        await savePlantData({ user, ...requestAddPlantData });
     }, [user, requestAddPlantData]);
 
     const getReplacedInfo = (info: string) => {

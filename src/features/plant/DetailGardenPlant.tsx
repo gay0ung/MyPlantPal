@@ -24,11 +24,11 @@ const DetailGardenPlant = ({ user, plantSummary, plant }: DetailGardenPlantProps
         [plantSummary, plant]
     );
 
-    const handleAddGardenPlant = useCallback(() => {
+    const handleAddGardenPlant = useCallback(async () => {
         if (!user) {
             return;
         }
-        savePlantData({ user, ...requestAddPlantData });
+        await savePlantData({ user, ...requestAddPlantData });
     }, [user, requestAddPlantData]);
 
     const getConvertedDPlantSpec = useMemo(() => {
