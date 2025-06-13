@@ -6,10 +6,12 @@ import { DryPlant, DryPlantSummary, GardenPlant, GardenPlantSummary, NongsaroPla
 
 import DetailDryPlant from '@/features/plant/DetailDryPlant';
 import DetailGardenPlant from '@/features/plant/DetailGardenPlant';
+import { useSnackbarStore } from '@/stores/snackbarStore';
 
 const DetailPlant = () => {
     const user = useAuthStore(state => state.user);
     const selectedPlantSummary = usePlantStore(state => state.selectedNongsaroPlantSummary);
+    const snackBar = useSnackbarStore();
     const [plant, setPlant] = useState<NongsaroPlant | null>(null);
 
     useEffect(() => {
@@ -19,6 +21,10 @@ const DetailPlant = () => {
                 setPlant(res as NongsaroPlant | null);
             });
         }
+
+        return () => {
+            snackBar.close();
+        };
     }, [selectedPlantSummary?.cntntsNo]);
 
     if (!selectedPlantSummary) {

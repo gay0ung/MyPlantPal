@@ -5,6 +5,7 @@ import { savePlantData } from '@/lib/plant';
 
 import AddMyPlantButton from './AddMyPlantButton';
 import PlantImage from './PlantImage';
+import { useSnackbarStore } from '@/stores/snackbarStore';
 
 interface DetailDryPlantProps {
     user: User | null;
@@ -13,6 +14,7 @@ interface DetailDryPlantProps {
 }
 
 const DetailDryPlant = ({ user, plantSummary, plant }: DetailDryPlantProps) => {
+    const snackBar = useSnackbarStore();
     const imageUrl = plantSummary.imgUrl1 || plantSummary.imgUrl2 || '';
     const plantEnName =
         plant?.scnm
@@ -33,7 +35,12 @@ const DetailDryPlant = ({ user, plantSummary, plant }: DetailDryPlantProps) => {
         if (!user) {
             return;
         }
-        await savePlantData({ user, ...requestAddPlantData });
+        try {
+            await savePlantData({ user, ...requestAddPlantData });
+            snackBar.open('내 식물에 추가 하였습니다.', 'info');
+        } catch (error) {
+            snackBar.open('내 식물에 추가 되지 않았습니다. 다시 시도해 보세요', 'error', 4000);
+        }
     }, [user, requestAddPlantData]);
 
     const getReplacedInfo = (info: string) => {
