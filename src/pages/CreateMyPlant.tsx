@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/authStore';
 import { savePlantData, savePlantImage } from '@/lib/plant';
 import { useSnackbarStore } from '@/stores/snackbarStore';
 
-const CreatePlant = () => {
+const CreateMyPlant = () => {
     const user = useAuthStore(state => state.user);
     const { open, close } = useSnackbarStore();
 
@@ -109,4 +109,4 @@ const CreatePlant = () => {
     );
 };
 
-export default CreatePlant;
+export default CreateMyPlant;

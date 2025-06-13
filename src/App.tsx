@@ -7,7 +7,7 @@ import AuthCallback from './pages/AuthCallback';
 import RouteGuard from './routes/RouteGuard';
 import RootRedirect from './routes/RootRedirect';
 import useAuthInit from './hooks/useAuthInit';
-import CreatePlant from './pages/CreatePlant';
+import CreateMyPlant from './pages/CreateMyPlant';
 import SearchPlant from './pages/SearchPlant';
 import DetailPlant from './pages/DetailPlant';
 import DetailMyPlant from './pages/DetailMyPlant';
@@ -47,7 +47,7 @@ const App = () => {
                         path="create-plant"
                         element={
                             <RouteGuard>
-                                <CreatePlant />
+                                <CreateMyPlant />
                             </RouteGuard>
                         }
                     />
