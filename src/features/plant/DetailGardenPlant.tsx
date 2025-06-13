@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { savePlantData } from '@/lib/plant';
 import { GardenPlant, GardenPlantSummary } from '@/types/nongsaroPlant';
 import { User } from '@supabase/supabase-js';
@@ -16,6 +16,7 @@ interface DetailGardenPlantProps {
 const DetailGardenPlant = ({ user, plantSummary, plant }: DetailGardenPlantProps) => {
     const snackBar = useSnackbarStore();
     const imageUrl = plantSummary?.rtnFileUrl.split('|')[0] || '';
+    const [isAddingPlant, setIsAddingPlant] = useState(false);
 
     const requestAddPlantData = useMemo(
         () => ({
@@ -30,12 +31,17 @@ const DetailGardenPlant = ({ user, plantSummary, plant }: DetailGardenPlantProps
         if (!user) {
             return;
         }
+
+        setIsAddingPlant(true);
+
         try {
             await savePlantData({ user, ...requestAddPlantData });
             snackBar.open('내 식물에 추가 하였습니다.', 'info');
         } catch (error) {
             snackBar.open('내 식물에 추가 되지 않았습니다. 다시 시도해 보세요', 'error', 4000);
         }
+
+        setIsAddingPlant(false);
     }, [user, requestAddPlantData]);
 
     const getConvertedDPlantSpec = useMemo(() => {
@@ -48,7 +54,7 @@ const DetailGardenPlant = ({ user, plantSummary, plant }: DetailGardenPlantProps
 
     return (
         <div className="flex flex-col items-center gap-y-4">
-            <AddMyPlantButton onClick={handleAddGardenPlant} />
+            <AddMyPlantButton onClick={handleAddGardenPlant} isAddingPlant={isAddingPlant} />
             <PlantImage src={imageUrl} alt={`${plantSummary?.cntntsSj} 이미지`} />
             <div>
                 <p>{plantSummary?.cntntsSj}</p>
