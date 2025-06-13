@@ -13,6 +13,7 @@ import DetailPlant from './pages/DetailPlant';
 import DetailMyPlant from './pages/DetailMyPlant';
 import NavigationMenu from './NavigationMenu';
 import SnackBar from './SnackBar';
+import UpdateMyPlant from './pages/UpdateMyPlant';
 
 const App = () => {
     useAuthInit();
@@ -48,6 +49,14 @@ const App = () => {
                         element={
                             <RouteGuard>
                                 <CreateMyPlant />
+                            </RouteGuard>
+                        }
+                    />
+                    <Route
+                        path="update-my-plant/:plantId"
+                        element={
+                            <RouteGuard>
+                                <UpdateMyPlant />
                             </RouteGuard>
                         }
                     />
