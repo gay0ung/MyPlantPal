@@ -47,8 +47,15 @@ const DetailMyPlant = () => {
         }
     };
 
+    const handleUpdateMyPlant = () => {
+        navigate(`/update-my-plant/${plant?.id}`);
+    };
+
     return (
         <div className="flex flex-col items-center gap-y-4">
+            <button onClick={handleUpdateMyPlant} type="button">
+                수정 하기
+            </button>
             <PlantImage src={plant?.imgUrl || ''} alt={`${plant?.name} 이미지`} />
             <p>{plant?.name}</p>
             <p>{plant?.nameEn}</p>
