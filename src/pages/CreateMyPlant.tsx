@@ -7,7 +7,8 @@ import MyPlantForm from '@/features/myPlant/MyPlantForm';
 
 const CreateMyPlant = () => {
     const user = useAuthStore(state => state.user);
-    const { open, close } = useSnackbarStore();
+    const openSnackBar = useSnackbarStore(state => state.open);
+    const closeSnackBar = useSnackbarStore(state => state.close);
 
     const [isAddingPlant, setIsAddingPlant] = useState(false);
     const [imgFile, setImgFile] = useState<File | null>(null);
@@ -35,11 +36,11 @@ const CreateMyPlant = () => {
             }
 
             await savePlantData({ user, name, nameEn, imgUrl });
-            open('식물이 추가 되었습니다.', 'info');
+            openSnackBar('식물이 추가 되었습니다.', 'info');
             init();
         } catch (error) {
             console.log(error);
-            open('식물이 추가 되지 않았습니다. 다시 추가해 주세요.', 'error', 5000);
+            openSnackBar('식물이 추가 되지 않았습니다. 다시 추가해 주세요.', 'error', 5000);
         }
 
         setIsAddingPlant(false);
@@ -47,7 +48,7 @@ const CreateMyPlant = () => {
 
     useEffect(() => {
         return () => {
-            close();
+            closeSnackBar();
         };
     }, []);
 
