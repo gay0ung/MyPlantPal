@@ -3,20 +3,24 @@ import { deleteMyPlantImgInStorage, savePlantImage, updateMyPlant } from '@/lib/
 import { useAuthStore } from '@/stores/authStore';
 import { usePlantStore } from '@/stores/plantStore';
 import { Plant } from '@/types/plant';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 const UpdateMyPlant = () => {
     const user = useAuthStore(sate => sate.user);
     const selectedMyPlant = usePlantStore(state => state.selectedMyPlant);
+    const setSelectedMyPlant = usePlantStore(state => state.setSelectedMyPlant);
 
+    const [isUpdatingMyPlant, setIsUpdatingMyPlant] = useState(false);
     const [imgFile, setImgFile] = useState<File | null>(null);
     const [name, setName] = useState(selectedMyPlant?.name || '');
     const [nameEn, setNameEn] = useState(selectedMyPlant?.nameEn || '');
 
     const handleUpdateMyPlant = async () => {
-        if (!name || !user) {
+        if (!name || !user || !selectedMyPlant) {
             return;
         }
+
+        setIsUpdatingMyPlant(true);
 
         let imgUrl = '';
         const requestData: Partial<Plant> = { id: selectedMyPlant?.id };
@@ -37,16 +41,32 @@ const UpdateMyPlant = () => {
                 requestData.imgUrl = imgUrl;
             }
             await updateMyPlant(user, requestData);
+            setSelectedMyPlant({ ...selectedMyPlant, ...requestData });
         } catch (error) {
             console.log(error);
         }
+
+        setIsUpdatingMyPlant(false);
     };
+
+    const canUpdateMyPlant = useMemo(() => {
+        if (!selectedMyPlant) {
+            return false;
+        }
+
+        return (selectedMyPlant?.name !== name || imgFile || selectedMyPlant?.nameEn !== nameEn) && !isUpdatingMyPlant;
+    }, [selectedMyPlant, name, imgFile, nameEn, isUpdatingMyPlant]);
 
     return (
         <div className="flex flex-col p-5">
-            <button onClick={handleUpdateMyPlant} className="self-end mb-6">
-                저장하기
+            <button
+                onClick={handleUpdateMyPlant}
+                className="self-end mb-6 disabled:bg-gray-400"
+                disabled={!canUpdateMyPlant}
+            >
+                {isUpdatingMyPlant ? '저장중...' : '저장하기'}
             </button>
+            {`${canUpdateMyPlant}`}
             <MyPlantForm
                 name={name}
                 nameEn={nameEn}
