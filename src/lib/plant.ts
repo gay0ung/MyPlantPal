@@ -52,7 +52,7 @@ export const loadPlants = async (user: User | null): Promise<Plant[]> => {
     return plants || [];
 };
 
-export const updateMyPlant = async (user: User | null, updatedData: Partial<Plant | null>) => {
+export const updateMyPlant = async (user: User | null, updatedData: Partial<Plant>) => {
     if (!user || !updatedData || !updatedData.id) {
         return;
     }
@@ -76,7 +76,7 @@ export const deleteMyPlant = async (user: User | null, plant: Plant | null) => {
     }
 };
 
-const deleteMyPlantImgInStorage = async (imgUrl: string) => {
+export const deleteMyPlantImgInStorage = async (imgUrl: string) => {
     const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL || '';
 
     if (!imgUrl || !imgUrl.includes(SUPABASE_URL)) {
