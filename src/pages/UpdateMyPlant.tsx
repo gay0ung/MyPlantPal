@@ -2,6 +2,7 @@ import MyPlantForm from '@/features/myPlant/MyPlantForm';
 import { deleteMyPlantImgInStorage, savePlantImage, updateMyPlant } from '@/lib/plant';
 import { useAuthStore } from '@/stores/authStore';
 import { usePlantStore } from '@/stores/plantStore';
+import { useSnackbarStore } from '@/stores/snackbarStore';
 import { Plant } from '@/types/plant';
 import { useMemo, useState } from 'react';
 
@@ -9,6 +10,8 @@ const UpdateMyPlant = () => {
     const user = useAuthStore(sate => sate.user);
     const selectedMyPlant = usePlantStore(state => state.selectedMyPlant);
     const setSelectedMyPlant = usePlantStore(state => state.setSelectedMyPlant);
+    const openSnackBar = useSnackbarStore(state => state.open);
+    const closeSnackBar = useSnackbarStore(state => state.close);
 
     const [isUpdatingMyPlant, setIsUpdatingMyPlant] = useState(false);
     const [imgFile, setImgFile] = useState<File | null>(null);
@@ -42,8 +45,10 @@ const UpdateMyPlant = () => {
             }
             await updateMyPlant(user, requestData);
             setSelectedMyPlant({ ...selectedMyPlant, ...requestData });
+            openSnackBar('식물이 수정 되었습니다.', 'info');
         } catch (error) {
             console.log(error);
+            openSnackBar('식물이 수정 되지 않았습니다.', 'error', 5000);
         }
 
         setIsUpdatingMyPlant(false);
@@ -56,6 +61,12 @@ const UpdateMyPlant = () => {
 
         return (selectedMyPlant?.name !== name || imgFile || selectedMyPlant?.nameEn !== nameEn) && !isUpdatingMyPlant;
     }, [selectedMyPlant, name, imgFile, nameEn, isUpdatingMyPlant]);
+
+    useEffect(() => {
+        return () => {
+            closeSnackBar();
+        };
+    }, []);
 
     return (
         <div className="flex flex-col p-5">
