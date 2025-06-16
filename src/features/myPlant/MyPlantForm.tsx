@@ -1,16 +1,17 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import TxtInput from './TxtInput';
 
 interface MyPlantFormProps {
     name: string;
     nameEn?: string;
+    imgUrl?: string;
     onNameChange: (name: string) => void;
     onNameEnChange: (nameEn: string) => void;
     onImgFileUpload: (file: File) => void;
 }
 
-const MyPlantForm = ({ name, nameEn, onNameChange, onNameEnChange, onImgFileUpload }: MyPlantFormProps) => {
-    const [previewImg, setPreviewImg] = useState('');
+const MyPlantForm = ({ name, nameEn, imgUrl, onNameChange, onNameEnChange, onImgFileUpload }: MyPlantFormProps) => {
+    const [previewImg, setPreviewImg] = useState(imgUrl || '');
 
     const handleUploadedImage = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e || !e.target.files) {
