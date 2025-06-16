@@ -11,13 +11,11 @@ const CreateMyPlant = () => {
 
     const [isAddingPlant, setIsAddingPlant] = useState(false);
     const [imgFile, setImgFile] = useState<File | null>(null);
-    const [previewImg, setPreviewImg] = useState('');
     const [name, setName] = useState('');
     const [nameEn, setNameEn] = useState('');
 
     const init = () => {
         setImgFile(null);
-        setPreviewImg('');
         setName('');
         setNameEn('');
     };
