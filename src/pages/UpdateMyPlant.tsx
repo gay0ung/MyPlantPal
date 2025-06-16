@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores/authStore';
 import { usePlantStore } from '@/stores/plantStore';
 import { useSnackbarStore } from '@/stores/snackbarStore';
 import { Plant } from '@/types/plant';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const UpdateMyPlant = () => {
     const user = useAuthStore(sate => sate.user);
@@ -77,7 +77,6 @@ const UpdateMyPlant = () => {
             >
                 {isUpdatingMyPlant ? '저장중...' : '저장하기'}
             </button>
-            {`${canUpdateMyPlant}`}
             <MyPlantForm
                 name={name}
                 nameEn={nameEn}
