@@ -27,7 +27,7 @@ const SnackBar = () => {
 
     return (
         <div
-            className={`fixed z-10 -translate-x-1/2 left-1/2 w-1/2 p-3 ${isOpen ? 'opacity-100 bottom-[calc(var(--navbar-height)+20px)]' : 'opacity-100 bottom-0'} transition-bottom duration-300 ease-out ${bgColor}`}
+            className={`fixed z-10 -translate-x-1/2 left-1/2 w-1/2 p-3 ${isOpen ? 'opacity-100 bottom-[calc(var(--navbar-height)+20px)]' : 'opacity-0 bottom-0'} transition-bottom duration-300 ease-out ${bgColor}`}
             role="alert"
         >
             <p>{message}</p>

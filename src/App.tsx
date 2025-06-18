@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './index.css';
 
 import Home from './pages/Home';
@@ -14,9 +14,16 @@ import DetailMyPlant from './pages/DetailMyPlant';
 import NavigationMenu from './NavigationMenu';
 import SnackBar from './SnackBar';
 import UpdateMyPlant from './pages/UpdateMyPlant';
+import { useMemo } from 'react';
 
 const App = () => {
+    const location = useLocation();
+
     useAuthInit();
+
+    const canDisplayNavigationMenu = useMemo(() => {
+        return !location.pathname.includes('login');
+    }, [location]);
 
     return (
         <div className="overflow-hidden grid grid-rows-[1fr_var(--navbar-height)] h-full">
@@ -62,7 +69,7 @@ const App = () => {
                     />
                 </Routes>
             </div>
-            <NavigationMenu />
+            {canDisplayNavigationMenu && <NavigationMenu />}
             <SnackBar />
         </div>
     );
