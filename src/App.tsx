@@ -27,7 +27,7 @@ const App = () => {
 
     return (
         <div className="overflow-hidden grid grid-rows-[1fr_var(--navbar-height)] h-full">
-            <div className="h-full overflow-y-auto">
+            <div className="h-full overflow-hidden">
                 <Routes>
                     <Route path="/" element={<RootRedirect />} />
                     <Route path="login" element={<Login />} />
