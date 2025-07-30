@@ -4,13 +4,50 @@
 
 :root {
     --navbar-height: 50px;
-}
-
-html, body {
-    height: 100%;
-    width: 100%;
+    --header-height: 70px;
 }
 
 #root {
     height: 100%;
+}
+
+@layer base {
+    * {
+        @apply text-primary-dark;
+
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font: inherit;
+    }
+
+
+    html, body {
+        height: 100%;
+        width: 100%;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+}
+
+
+@layer components {
+    .btn-base {
+        @apply flex justify-center items-center px-3 py-2 rounded-lg border-2 border-primary-green  text-primary-green shadow-[3px_3px_0px_0px_rgba(66,90,75,0.33)];
+    }
+}
+
+@layer utilities {
+    .custom-scroll::-webkit-scrollbar  {
+        @apply w-[10px] bg-transparent;
+    }
+
+    .custom-scroll::-webkit-scrollbar-thumb {
+        @apply rounded-md;
+
+        background: rgba(37, 52, 38, 0.137);
+    }
 }
